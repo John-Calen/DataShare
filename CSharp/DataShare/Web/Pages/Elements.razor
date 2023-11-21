@@ -1,0 +1,39 @@
+﻿@using Models
+@using Web.Components
+@using Web.Services
+
+@page "/elements"
+@inject IElementService elementService
+
+@if (Items is null)
+{
+    <h3>Loading elements...</h3>
+}
+
+else
+{
+    <h3 class="mb-5">Elements</h3>
+
+    @foreach (var element in Items)
+    {
+        <ElementRenderer Element="@element"/>
+    }
+}
+
+
+@code 
+{
+    public List<ElementModel>? Items { get; private set; }
+
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = (await elementService.GetAsync())
+            ?.ToList();
+
+        await base.OnInitializedAsync();
+    }
+}

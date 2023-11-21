@@ -1,0 +1,22 @@
+﻿@using Models
+
+@switch (Element.ElementType)
+{
+    case ElementType.TEXT:
+    {
+        <div>Text</div>
+        break;   
+    }
+
+    case ElementType.FILE:
+    {
+        <div>File</div>
+        break;
+    }
+}
+
+@code 
+{
+    [Parameter]
+    public ElementModel Element { get; set; } = default!;
+}
