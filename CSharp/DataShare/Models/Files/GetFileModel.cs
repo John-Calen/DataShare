@@ -1,9 +1,11 @@
 ﻿using Models.Files.Metas;
+using System.Text.Json.Serialization;
 
 namespace Models.Files
 {
     public class GetFileModel
     {
-        public required GetFileMetaModel Meta { get; init; }
+        [JsonPropertyName("meta")]
+        public GetFileMetaModel Meta { get; set; } = default!;
     }
 }

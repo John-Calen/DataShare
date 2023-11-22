@@ -1,0 +1,90 @@
+﻿@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Authorization
+@using Models
+@using Models.Users
+@using System.Text.Json
+@using Web.Components
+
+@page "/Login/{returnUrl?}"
+@inherits LoginComponent
+@attribute [AllowAnonymous]
+@layout LoginLayout
+
+@inject NavigationManager navigationManager
+
+<center>
+    <div class="col-8 card mt-5">
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+
+        <div class="col-12 row">
+            <div class="col-6 d-flex justify-content-center align-items-center">
+                <img src="images/logo.png" style="width:200px; height:200px" alt="Logo" />
+            </div>
+
+            <div class="col-6" style="border-left:groove">
+                <EditForm Model="@user" OnValidSubmit="@Handle">
+                    <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div>
+                        <h3 style="font-weight:bold; color:cornflowerblue">Login</h3>
+                    </div>
+
+                    <div>
+                        <br />
+                    </div>
+
+                    <div class="col-12 row">
+                        <input class="form-control col-12" @bind="user.Name" placeholder="username"/>
+                    </div>
+
+                    <div>
+                        <br />
+                    </div>
+
+                    <div class="col-12 row">
+                        <input class="form-control col-12" @bind="user.Password" placeholder="password" />
+                    </div>
+
+                    <div>
+                        <br />
+                    </div>
+
+                    <div class="col-12 row">
+                        <span class="col-12"></span>
+                        <input type="submit" class="form-control col-6 btn btn-primary" value="Login"/>
+                        <a class="col-3" href="/SignUp">Sign Up</a>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+    </div>
+</center>
+
+@code 
+{
+    private AuthUserModel user = new();
+    [Parameter]
+    public string ReturnUrl { get; set; } = string.Empty;
+
+
+
+
+
+    private async Task Handle()
+    {
+        await Login(user);
+
+        navigationManager.NavigateTo($"/{ReturnUrl}", true);
+    }
+}

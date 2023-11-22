@@ -1,10 +1,12 @@
-﻿using Business;
+﻿using Business.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
 namespace Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class ElementsController : ControllerBase
     {

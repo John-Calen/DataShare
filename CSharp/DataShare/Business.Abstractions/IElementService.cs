@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace Business
+namespace Business.Abstractions
 {
     public interface IElementService
     {

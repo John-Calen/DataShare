@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{AF68CC2F-7E8F-45D5-BE5F-B4722B41851C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{30D0DF47-1DE9-4166-AA83-D3A8072D7CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{30D0DF47-1DE9-4166-AA83-D3A8072D7CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{A853D9F9-06B3-4B0C-9ABD-BFB7F9A8324D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{A853D9F9-06B3-4B0C-9ABD-BFB7F9A8324D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{3F150F07-87A1-43DA-94BA-F118D6DAA96B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{3F150F07-87A1-43DA-94BA-F118D6DAA96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Abstractions", "Business.Abstractions\Business.Abstractions.csproj", "{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3F150F07-87A1-43DA-94BA-F118D6DAA96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F150F07-87A1-43DA-94BA-F118D6DAA96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F150F07-87A1-43DA-94BA-F118D6DAA96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

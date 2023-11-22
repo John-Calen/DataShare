@@ -1,4 +1,4 @@
-﻿namespace Business
+﻿namespace Business.Abstractions
 {
     public interface ICrudService<T_GetResource, T_CreateResource, T_UpdateResource, T_ResourceId>
     {

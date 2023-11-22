@@ -1,13 +1,18 @@
 ﻿using Data.Entities;
+using System.Text.Json.Serialization;
 
 namespace Models.Texts
 {
     public class UpdateTextModel : IDbModel<Text, UpdateTextModel>
     {
-        public required Guid Id { get; init; }
-        public required string Content { get; init; }
-        public required DateTime CreatedAt { get; init; }
-        public required long OwnerId { get; init; }
+        [JsonPropertyName("id")]
+        public Guid Id { get; set; } = default!;
+        [JsonPropertyName("content")]
+        public string Content { get; set; } = default!;
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = default!;
+        [JsonPropertyName("ownerId")]
+        public long OwnerId { get; set; } = default!;
 
 
 

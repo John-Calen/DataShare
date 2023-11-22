@@ -1,11 +1,14 @@
 ﻿using Data.Entities;
+using System.Text.Json.Serialization;
 
 namespace Models.Files.Metas
 {
     public class CreateFileMetaModel : IDbModel<FileMeta, CreateFileMetaModel>
     {
-        public required string Name { get; init; }
-        public required long OwnerId { get; init; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = default!;
+        [JsonPropertyName("ownerId")]
+        public long OwnerId { get; set; }
 
 
 

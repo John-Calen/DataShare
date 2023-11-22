@@ -1,14 +1,20 @@
 ﻿using Data.Entities;
+using System.Text.Json.Serialization;
 
 namespace Models.Files.Metas
 {
     public class UpdateFileMetaModel : IDbModel<FileMeta, UpdateFileMetaModel>
     {
-        public required Guid Id { get; init; }
-        public required string Name { get; init; }
-        public required long Size { get; init; }
-        public required DateTime CreatedAt { get; init; }
-        public required long OwnerId { get; init; }
+        [JsonPropertyName("id")]
+        public Guid Id { get; set; } = default!;
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = default!;
+        [JsonPropertyName("size")]
+        public long Size { get; set; } = default!;
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = default!;
+        [JsonPropertyName("ownerId")]
+        public long OwnerId { get; set; } = default!;
 
 
 

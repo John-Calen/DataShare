@@ -1,13 +1,17 @@
-﻿using Models.Users;
+﻿using System.Text.Json.Serialization;
 
 namespace Models.Files
 {
     public class CreateFileModel : ICreateFileModel
     {
-        public required FileInfo File { get; init; }
+        [JsonPropertyName("file")]
+        public FileInfo File { get; set; } = default!;
+        [JsonPropertyName("name")]
         public string Name => File.Name;
+        [JsonPropertyName("size")]
         public long Size => File.Length;
-        public required long OwnerId { get; init; }
+        [JsonPropertyName("ownerId")]
+        public long OwnerId { get; set; }
 
 
 

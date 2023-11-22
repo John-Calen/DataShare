@@ -1,12 +1,15 @@
 ﻿using Data.Entities;
 using Models.Users;
+using System.Text.Json.Serialization;
 
 namespace Models.Texts
 {
     public class CreateTextModel : IDbModel<Text, CreateTextModel>
     {
-        public required string Content { get; init; }
-        public required long OwnerId { get; init; }
+        [JsonPropertyName("content")]
+        public string Content { get; set; } = default!;
+        [JsonPropertyName("ownerId")]
+        public long OwnerId { get; set; } = default!;
 
 
 

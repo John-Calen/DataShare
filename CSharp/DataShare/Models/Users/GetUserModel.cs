@@ -1,11 +1,14 @@
 ﻿using Data.Entities;
+using System.Text.Json.Serialization;
 
 namespace Models.Users
 {
     public class GetUserModel : IGetDbEntiyModel<User, GetUserModel>
     {
-        public required long Id { get; init; }
-        public required string Name { get; init; }
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+        [JsonPropertyName("name")] 
+        public string Name { get; set; } = default!;
 
 
 

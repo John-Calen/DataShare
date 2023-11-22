@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Business.Abstractions;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
@@ -11,7 +12,7 @@ namespace Business
         where T_Entity: class
         where T_EntityId: notnull
     {
-        private readonly DataContext dataContext;
+        protected readonly DataContext dataContext;
 
 
 

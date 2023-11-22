@@ -1,10 +1,14 @@
 ﻿using Data.Entities;
+using System.Text.Json.Serialization;
 
 namespace Models.Users
 {
     public class CreateUserModel : IDbModel<User, CreateUserModel>
     {
-        public required string Name { get; init; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = default!;
+        [JsonPropertyName("password")]
+        public string? Password { get; set; }
 
 
 
@@ -15,7 +19,8 @@ namespace Models.Users
         {
             return new User
             {
-                Name = Name
+                Name = Name,
+                Password = Password
             };
         }
     }

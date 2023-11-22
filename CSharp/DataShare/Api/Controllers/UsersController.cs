@@ -1,10 +1,14 @@
-﻿using Business;
+﻿using Business.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.Users;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
@@ -52,6 +56,47 @@ namespace Api.Controllers
         public async Task Delete([FromRoute] long id) 
         {
             await userService.DeleteAsync(id);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<GetUserModel> Register([FromBody] CreateUserModel model)
+        {
+            return await userService.CreateAsync(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Auth")]
+        public async Task<AuthToken> Authorize([FromBody] AuthUserModel model, [FromServices] IJwtTokenService jwtTokenService)
+        {
+            var user = await userService.FindAsync(model.Name, model.Password) 
+                ?? throw new Exception("Name or password is not correct");
+
+            var accessToken = jwtTokenService.GenerateToken
+            (
+                new Claim[]
+                {
+                    new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new(ClaimTypes.Name, user.Name)
+                },
+                DateTime.Now.AddMinutes(15)
+            );
+
+            var refreshToken = jwtTokenService.GenerateToken
+            (
+                new Claim[]
+                {
+                    new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new(ClaimTypes.Name, user.Name)
+                },
+                DateTime.Now.AddMinutes(25)
+            );
+
+            return new AuthToken
+            {
+                JwtAccess = accessToken,
+                JwtRefresh = refreshToken
+            };
         }
     }
 }
