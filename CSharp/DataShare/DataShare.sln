@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{3F150F07-87A1-43DA-94BA-F118D6DAA96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Abstractions", "Business.Abstractions\Business.Abstractions.csproj", "{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Abstractions", "Business.Abstractions\Business.Abstractions.csproj", "{6F7F9EFA-AC31-4B04-BDE0-E687EA5D5773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
