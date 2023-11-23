@@ -9,9 +9,7 @@ namespace Api.Dtos
         public IFormFile File { get; set; } = default!;
         [Required]
         public string Name { get; set; } = default!;
-        public long Size => throw new NotImplementedException();
-        private DateTime createdAt = DateTime.UtcNow;
-        public DateTime CreatedAt => createdAt;
+        //  Todo: it should be specified based on authorized user
         [Required]
         public long OwnerId { get; set; }
 

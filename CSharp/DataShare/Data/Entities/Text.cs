@@ -5,10 +5,12 @@ namespace Data.Entities
     public class Text: IPosted<Guid>
     {
         public Guid Id { get; set; }
+        public Guid PrimaryKey => Id;
         public string Content { get; set; } = default!;
         public DateTime CreatedAt { get; set; }
         public User Owner { get; set; } = default!;
         [ForeignKey(nameof(Owner))]
         public long OwnerId { get; set; }
+
     }
 }

@@ -13,6 +13,6 @@ namespace Data
 
 
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)  { }
     }
 }

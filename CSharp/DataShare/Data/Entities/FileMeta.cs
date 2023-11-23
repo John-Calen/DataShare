@@ -5,6 +5,7 @@ namespace Data.Entities
     public class FileMeta: IPosted<Guid>
     {
         public Guid Id { get; set; }
+        public Guid PrimaryKey => Id;
         public string Name { get; set; } = default!;
         public long Size { get; set; }
         public DateTime CreatedAt { get; set; }

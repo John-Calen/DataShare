@@ -44,8 +44,6 @@ namespace Business
 
                 var created = metaService.Create(metaModel);
                 id = created.Id;
-                
-                transaction.Commit();
 
                 long size = 0;
                 using (var stream = resource.CreateStream())
@@ -102,8 +100,6 @@ namespace Business
 
                 var created = await metaService.CreateAsync(metaModel);
                 id = created.Id;
-
-                await transaction.CommitAsync();
 
                 long size = 0;
                 using (var stream = resource.CreateStream())
@@ -251,8 +247,6 @@ namespace Business
 
             var created = metaService.Update(metaModel);
             id = created.Id;
-                
-            transaction.Commit();
 
             long size = 0;
             using (var stream = resource.CreateStream())
@@ -298,8 +292,6 @@ namespace Business
 
             var created = await metaService.UpdateAsync(metaModel);
             id = created.Id;
-
-            await transaction.CommitAsync();
 
             long size = 0;
             using (var stream = resource.CreateStream())
