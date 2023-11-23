@@ -39,6 +39,13 @@ namespace Api.Controllers
             return await fileElementService.GetAsync(id);
         }
 
+        [HttpGet("Download/{id}")]
+        public IActionResult Download([FromRoute] Guid id)
+        {
+            var loadingFile = fileElementService.Load(id);
+            return File(loadingFile.Stream, "application/octet-stream", loadingFile.Meta.Name);
+        }
+
         [HttpPost]
         public async Task<GetFileModel> Create([FromForm] CreateFileDto dto)
         {

@@ -18,6 +18,7 @@
 
 
 
+
         public void Delete(Guid id)
         {
             var path = GetFilePath(id);
@@ -36,18 +37,12 @@
 
         public Stream Load(Guid id)
         {
-            using var memoryStream = new MemoryStream();
-            Load(id, memoryStream);
+            var path = GetFilePath(id);
 
-            return memoryStream;
-        }
+            if ( ! File.Exists(path))
+                throw new Exception("File doesn't exist");
 
-        public async Task<Stream> LoadAsync(Guid id)
-        {
-            using var memoryStream = new MemoryStream();
-            await LoadAsync(id, memoryStream);
-
-            return memoryStream;
+            return File.OpenRead(path);
         }
 
         public void Load(Guid id, Stream stream)

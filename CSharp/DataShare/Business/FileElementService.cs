@@ -209,24 +209,32 @@ namespace Business
                 : null;
         }
 
-        public Stream Load(Guid id)
+        public LoadingFileModel Load(Guid id)
         {
-            return fileStorage.Load(id);
+            var meta = Get(id)!.Meta;
+            var stream = fileStorage.Load(id);
+
+            return new LoadingFileModel
+            {
+                Meta = meta,
+                Stream = stream
+            };
         }
 
-        public Task<Stream> LoadAsync(Guid id)
+        public GetFileMetaModel Load(Guid id, Stream to)
         {
-            return fileStorage.LoadAsync(id);
-        }
-
-        public void Load(Guid id, Stream to)
-        {
+            var meta = Get(id)!.Meta;
             fileStorage.Load(id, to);
+
+            return meta;
         }
 
-        public Task LoadAsync(Guid id, Stream to)
+        public async Task<GetFileMetaModel> LoadAsync(Guid id, Stream to)
         {
-            return fileStorage.LoadAsync(id, to);
+            var meta = (await GetAsync(id))!.Meta;
+            await fileStorage.LoadAsync(id, to);
+
+            return meta;
         }
 
         public GetFileModel Update(IUpdateFileModel resource)
