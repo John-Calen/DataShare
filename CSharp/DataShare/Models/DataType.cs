@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public enum ElementType
+    public enum DataType
     {
         FILE,
         TEXT

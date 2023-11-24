@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Models.Files.Metas
 {
-    public class GetFileMetaModel : IGetDbEntiyModel<FileMeta, GetFileMetaModel>
+    public class GetFileMetaModel : IGetDbEntiyModel<FileMeta, GetFileMetaModel>, IDataModel<Guid>
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; } = default!;
@@ -32,15 +32,15 @@ namespace Models.Files.Metas
             };
         }
 
-        public static GetFileMetaModel ToModel(FileMeta element)
+        public static GetFileMetaModel ToModel(FileMeta data)
         {
             return new GetFileMetaModel
             {
-                Id = element.Id,
-                Name = element.Name,
-                Size = element.Size,
-                CreatedAt = element.CreatedAt,
-                OwnerId = element.OwnerId
+                Id = data.Id,
+                Name = data.Name,
+                Size = data.Size,
+                CreatedAt = data.CreatedAt,
+                OwnerId = data.OwnerId
             };
         }
     }

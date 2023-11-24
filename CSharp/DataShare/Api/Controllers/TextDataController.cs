@@ -8,17 +8,17 @@ namespace Api.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class TextElementController : ControllerBase
+    public class TextDataController : ControllerBase
     {
-        private readonly ITextElementService textElementService;
+        private readonly ITextDataService textDataService;
 
 
 
 
 
-        public TextElementController(ITextElementService textElementService)
+        public TextDataController(ITextDataService textElementService)
         {
-            this.textElementService = textElementService;
+            this.textDataService = textElementService;
         }
 
 
@@ -29,31 +29,31 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<GetTextModel>> Get()
         {
-            return await textElementService.GetAsync();
+            return await textDataService.GetAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<GetTextModel?> Get([FromRoute] Guid id)
         {
-            return await textElementService.GetAsync(id);
+            return await textDataService.GetAsync(id);
         }
 
         [HttpPost]
         public async Task<GetTextModel> Create([FromBody] CreateTextModel model)
         {
-            return await textElementService.CreateAsync(model);
+            return await textDataService.CreateAsync(model);
         }
 
         [HttpPut]
         public async Task<GetTextModel> Update([FromBody] UpdateTextModel model)
         {
-            return await textElementService.UpdateAsync(model);
+            return await textDataService.UpdateAsync(model);
         }
 
         [HttpDelete("{id}")]
         public async Task Delete([FromRoute] Guid id) 
         {
-            await textElementService.DeleteAsync(id);
+            await textDataService.DeleteAsync(id);
         }
     }
 }

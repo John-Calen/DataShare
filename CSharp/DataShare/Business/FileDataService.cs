@@ -6,7 +6,7 @@ using Models.Files.Metas;
 
 namespace Business
 {
-    public class FileElementService: IFileElementService
+    public class FileDataService: IFileDataService
     {
         private readonly DataContext dataContext;
         private readonly IFileStorage fileStorage;
@@ -17,7 +17,7 @@ namespace Business
             
             
             
-        public FileElementService(DataContext dataContext, IFileStorage fileStorage)
+        public FileDataService(DataContext dataContext, IFileStorage fileStorage)
         {
             this.dataContext = dataContext;
             this.fileStorage = fileStorage;
@@ -29,7 +29,7 @@ namespace Business
 
 
 
-        public GetFileModel Create(ICreateFileModel resource)
+        public GetFileMetaModel Create(ICreateFileModel resource)
         {
             using var transaction = dataContext.Database.BeginTransaction();
             
@@ -65,10 +65,7 @@ namespace Business
 
                 transaction.Commit();
 
-                return new GetFileModel
-                {
-                    Meta = updated
-                };
+                return updated;
             }
 
             catch
@@ -85,7 +82,7 @@ namespace Business
             }
         }
 
-        public async Task<GetFileModel> CreateAsync(ICreateFileModel resource)
+        public async Task<GetFileMetaModel> CreateAsync(ICreateFileModel resource)
         {
             using var transaction = await dataContext.Database.BeginTransactionAsync();
 
@@ -121,10 +118,7 @@ namespace Business
 
                 await transaction.CommitAsync();
 
-                return new GetFileModel
-                {
-                    Meta = updated
-                };
+                return updated;
             }
 
             catch
@@ -141,12 +135,12 @@ namespace Business
             }
         }
 
-        public void Delete(GetFileModel resource)
+        public void Delete(GetFileMetaModel resource)
         {
             using var transaction = dataContext.Database.BeginTransaction();
 
-            metaService.Delete(resource.Meta.Id);
-            fileStorage.Delete(resource.Meta.Id);
+            metaService.Delete(resource.Id);
+            fileStorage.Delete(resource.Id);
 
             transaction.Commit();
         }
@@ -161,12 +155,12 @@ namespace Business
             transaction.Commit();
         }
 
-        public async Task DeleteAsync(GetFileModel resource)
+        public async Task DeleteAsync(GetFileMetaModel resource)
         {
             using var transaction = await dataContext.Database.BeginTransactionAsync();
 
-            await metaService.DeleteAsync(resource.Meta.Id);
-            fileStorage.Delete(resource.Meta.Id);
+            await metaService.DeleteAsync(resource.Id);
+            fileStorage.Delete(resource.Id);
 
             transaction.Commit();
         }
@@ -181,37 +175,29 @@ namespace Business
             transaction.Commit();
         }
 
-        public IEnumerable<GetFileModel> Get()
+        public IEnumerable<GetFileMetaModel> Get()
         {
-            return metaService.Get()
-                .Select((meta) => new GetFileModel { Meta = meta });
+            return metaService.Get();
         }
 
-        public GetFileModel? Get(Guid id)
+        public GetFileMetaModel? Get(Guid id)
         {
-            var meta = metaService.Get(id);
-            return meta is not null 
-                ? new GetFileModel { Meta = meta }
-                : null;
+            return metaService.Get(id);
         }
 
-        public async Task<IEnumerable<GetFileModel>> GetAsync()
+        public async Task<IEnumerable<GetFileMetaModel>> GetAsync()
         {
-            return (await metaService.GetAsync())
-               .Select((meta) => new GetFileModel { Meta = meta });
+            return await metaService.GetAsync();
         }
 
-        public async Task<GetFileModel?> GetAsync(Guid id)
+        public async Task<GetFileMetaModel?> GetAsync(Guid id)
         {
-            var meta = await metaService.GetAsync(id);
-            return meta is not null
-                ? new GetFileModel { Meta = meta }
-                : null;
+            return await metaService.GetAsync(id);
         }
 
         public LoadingFileModel Load(Guid id)
         {
-            var meta = Get(id)!.Meta;
+            var meta = Get(id)!;
             var stream = fileStorage.Load(id);
 
             return new LoadingFileModel
@@ -223,7 +209,7 @@ namespace Business
 
         public GetFileMetaModel Load(Guid id, Stream to)
         {
-            var meta = Get(id)!.Meta;
+            var meta = Get(id)!;
             fileStorage.Load(id, to);
 
             return meta;
@@ -231,13 +217,13 @@ namespace Business
 
         public async Task<GetFileMetaModel> LoadAsync(Guid id, Stream to)
         {
-            var meta = (await GetAsync(id))!.Meta;
+            var meta = await GetAsync(id);
             await fileStorage.LoadAsync(id, to);
 
             return meta;
         }
 
-        public GetFileModel Update(IUpdateFileModel resource)
+        public GetFileMetaModel Update(IUpdateFileModel resource)
         {
             //  Todo: Consider rollback of file storage
 
@@ -276,13 +262,10 @@ namespace Business
 
             transaction.Commit();
 
-            return new GetFileModel
-            {
-                Meta = updated
-            };
+            return updated;
         }
 
-        public async Task<GetFileModel> UpdateAsync(IUpdateFileModel resource)
+        public async Task<GetFileMetaModel> UpdateAsync(IUpdateFileModel resource)
         {
             //  Todo: Consider rollback of file storage
 
@@ -321,10 +304,7 @@ namespace Business
 
             await transaction.CommitAsync();
 
-            return new GetFileModel
-            {
-                Meta = updated
-            };
+            return updated;
         }
     }
 }

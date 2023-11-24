@@ -1,0 +1,70 @@
+﻿@using Models
+@using Models.Files
+@using Models.Texts
+
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+
+<div class="card">
+    <div class="card-body row d-flex justify-content-center align-items-center">
+        <div class="col-8">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-8">
+                    <span>@Model.Content</span>
+                </div>
+
+                <div class="col-2">
+                    <span>@Model.CreatedAt</span>
+                </div>
+
+                <div class="col-2">
+                    <span>OwnerId: @Model.OwnerId</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="row">
+                <div class="col-4">
+                </div>
+
+                <div class="col-4">
+                    <button class="btn btn-secondary w-100" @onclick="@Copy">Copy</button>
+                </div>
+
+                <div class="col-4">
+                    <button class="btn btn-secondary w-100" @onclick="@Delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@code 
+{
+    [Parameter]
+    public GetTextModel Model { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<GetTextModel> OnDelete { get; set; } = default!;
+
+
+
+
+
+    private async Task Delete()
+    {
+        await HttpClient.DeleteAsync($"TextData/{Model.Id}");
+        await OnDelete.InvokeAsync(Model);
+    }
+
+    private async Task Copy()
+    {
+        await JSRuntime.InvokeVoidAsync("copyTextToClipboard", Model.Content);
+    }
+}

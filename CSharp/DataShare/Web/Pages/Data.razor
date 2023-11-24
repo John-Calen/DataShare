@@ -1,0 +1,81 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using Models
+@using System.Text.Json
+@using Models.Files
+@using Models.Files.Metas
+@using Models.Texts
+@using Web.Components
+@attribute [Authorize]
+
+@inject HttpClient httpClient
+
+<PageTitle>Data</PageTitle>
+
+<br/>
+<br/>
+
+<div class="row">
+    @if (models is not null)
+    {
+        @foreach (var model in models)
+        {
+            @switch (model)
+            {
+                case GetTextModel textModel:
+                {       
+                    <TextData Model="@textModel" />
+                    break;
+                }
+
+                case GetFileMetaModel fileMetaModel:
+                {
+                    <FileData Model="@fileMetaModel" />
+                    break;
+                }
+            }
+        }
+    }
+</div>
+
+
+@code
+{
+    private IDataModel<Guid>[] models = default!;
+
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var fileModels = await GetFileModels();
+        var textModel = await GetTextModels();
+
+        models = Array.Empty<IDataModel<Guid>>()
+            .Concat(fileModels)
+            .Concat(textModel)
+            .OrderBy((m) => m.CreatedAt)
+            .ToArray();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<IEnumerable<GetFileMetaModel>> GetFileModels()
+    {
+        var response = await httpClient.GetAsync("FileData");
+        var content = await response.Content.ReadAsStringAsync();
+        var models = JsonSerializer.Deserialize<GetFileMetaModel[]>(content)!;
+
+        return models;
+    }
+
+    private async Task<IEnumerable<GetTextModel>> GetTextModels()
+    {
+        var response = await httpClient.GetAsync("TextData");
+        var content = await response.Content.ReadAsStringAsync();
+        var models = JsonSerializer.Deserialize<GetTextModel[]>(content)!;
+
+        return models;
+    }
+}

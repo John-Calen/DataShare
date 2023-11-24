@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Models.Texts
 {
-    public class GetTextModel : IGetDbEntiyModel<Text, GetTextModel>
+    public class GetTextModel : IGetDbEntiyModel<Text, GetTextModel>, IDataModel<Guid>
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; } = default!;
@@ -29,14 +29,14 @@ namespace Models.Texts
             };
         }
 
-        public static GetTextModel ToModel(Text element)
+        public static GetTextModel ToModel(Text data)
         {
             return new GetTextModel
             {
-                Id = element.Id,
-                Content = element.Content,
-                CreatedAt = element.CreatedAt,
-                OwnerId = element.OwnerId
+                Id = data.Id,
+                Content = data.Content,
+                CreatedAt = data.CreatedAt,
+                OwnerId = data.OwnerId
             };
         }
     }

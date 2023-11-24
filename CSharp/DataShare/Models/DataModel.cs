@@ -1,10 +1,11 @@
 ﻿using Models.Files;
+using Models.Files.Metas;
 using Models.Texts;
 using System.Text.Json.Serialization;
 
 namespace Models
 {
-    public class ElementModel
+    public class DataModel
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; } = default!;
@@ -12,38 +13,38 @@ namespace Models
         public DateTime CreatedAt { get; set; } = default!;
         [JsonPropertyName("content")]
         public string Content { get; set; } = default!;
-        [JsonPropertyName("elementType")]
-        public ElementType ElementType { get; set; } = default!;
+        [JsonPropertyName("dataType")]
+        public DataType DataType { get; set; } = default!;
 
 
 
 
 
-        public static ElementModel? FromText(GetTextModel? model)
+        public static DataModel? FromText(GetTextModel? model)
         {
             if (model is null)
                 return null;
 
-            return new ElementModel
+            return new DataModel
             {
                 Id = model.Id,
                 CreatedAt = model.CreatedAt,
                 Content = model.Content,
-                ElementType = ElementType.TEXT
+                DataType = DataType.TEXT
             };
         }
 
-        public static ElementModel? FromFile(GetFileModel? model)
+        public static DataModel? FromFile(GetFileMetaModel? model)
         {
             if (model is null)
                 return null;
 
-            return new ElementModel
+            return new DataModel
             {
-                Id = model.Meta.Id,
-                CreatedAt = model.Meta.CreatedAt,
-                Content = model.Meta.Name,
-                ElementType = ElementType.FILE
+                Id = model.Id,
+                CreatedAt = model.CreatedAt,
+                Content = model.Name,
+                DataType = DataType.FILE
             };
         }
     }

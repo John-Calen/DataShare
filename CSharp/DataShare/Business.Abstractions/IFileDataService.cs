@@ -3,7 +3,7 @@ using Models.Files.Metas;
 
 namespace Business.Abstractions
 {
-    public interface IFileElementService : ICrudService<GetFileModel, ICreateFileModel, IUpdateFileModel, Guid>
+    public interface IFileDataService : ICrudService<GetFileMetaModel, ICreateFileModel, IUpdateFileModel, Guid>
     {
         public abstract LoadingFileModel Load(Guid id);
         public abstract GetFileMetaModel Load(Guid id, Stream to);

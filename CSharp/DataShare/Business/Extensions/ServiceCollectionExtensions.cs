@@ -13,8 +13,8 @@ namespace Business.Extensions
                 .AddDataService()
                 .AddFileStorage()
                 .AddUserService()
-                .AddTextElementService()
-                .AddFileElementService()
+                .AddTextDataService()
+                .AddFileDataService()
                 .AddElementService();
         }
 
@@ -33,19 +33,19 @@ namespace Business.Extensions
             return serviceDescriptors.AddTransient<IUserService, UserService>();
         }
 
-        public static IServiceCollection AddTextElementService(this IServiceCollection serviceDescriptors)
+        public static IServiceCollection AddTextDataService(this IServiceCollection serviceDescriptors)
         {
-            return serviceDescriptors.AddTransient<ITextElementService, TextElementService>();
+            return serviceDescriptors.AddTransient<ITextDataService, TextDataService>();
         }
 
-        public static IServiceCollection AddFileElementService(this IServiceCollection serviceDescriptors)
+        public static IServiceCollection AddFileDataService(this IServiceCollection serviceDescriptors)
         {
-            return serviceDescriptors.AddTransient<IFileElementService, FileElementService>();
+            return serviceDescriptors.AddTransient<IFileDataService, FileDataService>();
         }
 
         public static IServiceCollection AddElementService(this IServiceCollection serviceDescriptors)
         {
-            return serviceDescriptors.AddTransient<IElementService, ElementService>();
+            return serviceDescriptors.AddTransient<IDataService, DataService>();
         }
     }
 }

@@ -152,6 +152,18 @@ namespace Business
                 .Local
                 .SingleOrDefault((e) => e.PrimaryKey.Equals(entity.PrimaryKey));
 
+            if (cached is not null)
+            {
+                var propertyInfos = typeof(T_Entity).GetProperties()
+                    .Where((pi) => pi.CanWrite && pi.CanRead);
+                
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var value = propertyInfo.GetValue(entity);
+                    propertyInfo.SetValue(cached, value);
+                }
+            }
+
             return cached;
         }
     }

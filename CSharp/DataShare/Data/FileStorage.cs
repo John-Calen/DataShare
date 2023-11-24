@@ -102,8 +102,10 @@
 
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 
-            using var fileStream = File.OpenWrite(path);
-            stream.CopyTo(fileStream);
+            using (var fileStream = File.OpenWrite(path))
+            {
+                stream.CopyTo(fileStream);
+            }
 
             return new FileInfo(path).Length;
         }
@@ -117,8 +119,10 @@
 
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 
-            using var fileStream = File.OpenWrite(path);
-            await stream.CopyToAsync(fileStream);
+            using (var fileStream = File.OpenWrite(path))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
 
             return new FileInfo(path).Length;
         }
@@ -129,6 +133,8 @@
             var path = this.path;
             foreach (var index in Enumerable.Range(0, 3))
                 path = Path.Combine(path, idStr[index].ToString());
+
+            path = Path.Combine(path, idStr);
 
             return path;
         }
