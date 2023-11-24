@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="d-flex flex-column" style="height:100vh">
+            <div class="row px-4" style="height:@HEADER_SIZE">
+                <div class="col-9">
+
+                </div>
+                <div class="col-3">
+                    <Web.Components.UserInfo />
+                </div>
+            </div>
+
+            <article class="content px-4" style="height:calc(100vh - @HEADER_SIZE)">
+                @Body
+            </article>
+        </div>
+    </main>
+</div>
+
+@code
+{
+    public const string HEADER_SIZE = "50px";
+}

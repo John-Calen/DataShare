@@ -5,43 +5,57 @@
 @using Models.Files
 @using Models.Files.Metas
 @using Models.Texts
+@using System.Security.Claims
 @using Web.Components
 @attribute [Authorize]
+
+@layout MainStretchedLayout
 
 @inject HttpClient httpClient
 
 <PageTitle>Data</PageTitle>
 
-<br/>
-<br/>
-
-<div class="row">
-    @if (models is not null)
-    {
-        @foreach (var model in models)
+<div class="col d-flex flex-column h-100">
+    <div class="row flex-grow-1 d-flex flex-column justify-content-start g-3" style="overflow:auto">
+        @if (datas is not null)
         {
-            @switch (model)
+            @foreach (var model in datas)
             {
-                case GetTextModel textModel:
-                {       
-                    <TextData Model="@textModel" />
-                    break;
-                }
+                <div class="col-12">
+                    @switch (model)
+                    {
+                        case GetTextModel textModel:
+                        {       
+                            <TextData Model="@textModel" OnDelete="@OnDataItemDeleted" />
+                            break;
+                        }
 
-                case GetFileMetaModel fileMetaModel:
-                {
-                    <FileData Model="@fileMetaModel" />
-                    break;
-                }
+                        case GetFileMetaModel fileMetaModel:
+                        {
+                            <FileData Model="@fileMetaModel" OnDelete="@OnDataItemDeleted" />
+                            break;
+                        }
+                    }
+                </div>
             }
         }
-    }
+    </div>
+
+    <div class="row flex-shrink-0" style="height:150px">
+        <div class="col-12 p-1">
+            <textarea class="w-100 h-100" placeholder="enter text" @onkeydown="@OnTextAreaKeyDown" @bind="NewText" @bind:event="oninput"/>
+        </div>
+    </div>
 </div>
 
 
 @code
 {
-    private IDataModel<Guid>[] models = default!;
+    private List<IDataModel<Guid>> datas = default!;
+    private string NewText = string.Empty;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
 
 
@@ -52,11 +66,11 @@
         var fileModels = await GetFileModels();
         var textModel = await GetTextModels();
 
-        models = Array.Empty<IDataModel<Guid>>()
+        datas = Array.Empty<IDataModel<Guid>>()
             .Concat(fileModels)
             .Concat(textModel)
             .OrderBy((m) => m.CreatedAt)
-            .ToArray();
+            .ToList();
 
         await base.OnInitializedAsync();
     }
@@ -77,5 +91,56 @@
         var models = JsonSerializer.Deserialize<GetTextModel[]>(content)!;
 
         return models;
+    }
+
+    private void OnDataItemDeleted(IDataModel<Guid> model)
+    {
+        datas.Remove(model);
+    }
+
+    private async Task OnTextAreaKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Code is "Enter" && !args.ShiftKey)
+        {
+            if (! string.IsNullOrWhiteSpace(NewText))
+            {
+                var model = await CreateTextData(NewText);
+                if (model is not null)
+                {
+                    NewText = string.Empty;
+                    datas.Add(model);
+                }
+            }
+        }
+    }
+
+    private async Task<GetTextModel?> CreateTextData(string text)
+    {
+        if (AuthenticationStateTask is null)
+            return null;
+
+        var state = await AuthenticationStateTask;
+        if (state is null)
+            return null;
+
+        var id = state.User.Claims.Single((c) => c.Type is ClaimTypes.NameIdentifier);
+
+        var response = await httpClient.PostAsJsonAsync
+        (
+            "TextData",
+            new CreateTextModel
+            {
+                OwnerId = long.Parse(id.Value),
+                Content = text
+            }
+        );
+
+        if ( ! response.IsSuccessStatusCode)
+            return null;
+
+        var content = await response.Content.ReadAsStringAsync();
+        var model = JsonSerializer.Deserialize<GetTextModel>(content);
+
+        return model;
     }
 }
