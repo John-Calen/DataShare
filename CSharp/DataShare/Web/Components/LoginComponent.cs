@@ -1,10 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Models;
 using Models.Users;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Web.Auth;
 
 namespace Web.Components
 {
@@ -15,7 +15,7 @@ namespace Web.Components
         [Inject]
         public ILocalStorageService LocalStorage { get; set; } = default!;
         [Inject]
-        public AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+        public IAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
         
         
         
@@ -28,9 +28,7 @@ namespace Web.Components
             var content = await result.Content.ReadAsStringAsync();
             var authToken = JsonSerializer.Deserialize<AuthToken>(content)!;
 
-            await LocalStorage.SetItemAsync("token", authToken.JwtAccess);
-
-            await AuthStateProvider.GetAuthenticationStateAsync();
+            await AuthStateProvider.Authorize(authToken.JwtAccess);
         }
     }
 }

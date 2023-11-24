@@ -1,8 +1,9 @@
 ﻿@using Blazored.LocalStorage
+@using Web.Auth
 
 
 @inject ILocalStorageService LocalStorage
-@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthenticationStateProvider AuthStateProvider
 
 
 <AuthorizeView>
@@ -23,8 +24,6 @@
 {
     private async Task LogOut()
     {
-        await LocalStorage.RemoveItemAsync("token");
-
-        await AuthStateProvider.GetAuthenticationStateAsync();
+        await AuthStateProvider.LogOut();
     }
 }

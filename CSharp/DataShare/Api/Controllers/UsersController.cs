@@ -79,7 +79,7 @@ namespace Api.Controllers
                     new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new(ClaimTypes.Name, user.Name)
                 },
-                DateTime.Now.AddMinutes(15)
+                DateTime.UtcNow.AddMinutes(15)
             );
 
             var refreshToken = jwtTokenService.GenerateToken
@@ -89,7 +89,7 @@ namespace Api.Controllers
                     new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new(ClaimTypes.Name, user.Name)
                 },
-                DateTime.Now.AddMinutes(25)
+                DateTime.UtcNow.AddMinutes(25)
             );
 
             return new AuthToken
